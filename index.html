@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Janu's Dresses collections </title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #121212, #000000);
+      color: #e0e0e0;
+    }
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+    .card {
+      width: 100%;
+      max-width: 980px;
+      background: #1e1e1e;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      border: 1px solid #333;
+      overflow: hidden;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .hero .left {
+      padding: 40px 36px;
+    }
+    .hero h1 {
+      margin: 0 0 16px;
+      font-size: 2.7rem;
+      line-height: 1.05;
+      color: #d4af37;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .hero p {
+      margin: 0 0 28px;
+      color: #a0a0a0;
+    }
+    .login-box {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .login-box label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid #444;
+      background: #2a2a2a;
+      color: #fff;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+    }
+    .login-box input:focus {
+      border-color: #d4af37;
+      outline: none;
+    }
+    .login-box input::placeholder {
+      color: #777;
+    }
+    .login-box button {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d4af37, #aa801e);
+      color: #000;
+      font-size: 1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    }
+    .login-box button:hover {
+      background: linear-gradient(135deg, #f3cd57, #d4af37);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    }
+    .gallery {
+      display: none;
+      padding: 36px;
+    }
+    .gallery h2 {
+      margin-top: 0;
+      color: #d4af37;
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .photo-card {
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
+    }
+    .photo-card img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .photo-card:hover {
+      border-color: #d4af37;
+      transform: translateY(-5px);
+      box-shadow: 0 20px 45px rgba(212, 175, 55, 0.15);
+    }
+    .photo-card:hover img {
+      transform: scale(1.05);
+    }
+    .photo-card .caption {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.7));
+      color: #fff;
+      padding: 14px 16px;
+      font-size: 0.95rem;
+    }
+    .logout-button {
+      margin-top: 18px;
+      border: 1px solid #d4af37;
+      background: transparent;
+      color: #d4af37;
+      padding: 12px 18px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .logout-button:hover {
+      background: #d4af37;
+      color: #000;
+    }
+    /* Glowing Symbols */
+    .symbol {
+      display: inline-block;
+      animation: symbolGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes symbolGlow {
+      from {
+        text-shadow: 0 0 5px rgba(212, 175, 55, 0.4), 0 0 10px rgba(212, 175, 55, 0.4);
+      }
+      to {
+        text-shadow: 0 0 10px rgba(243, 205, 87, 1), 0 0 20px rgba(243, 205, 87, 0.8), 0 0 30px rgba(243, 205, 87, 0.6);
+        color: #fff9e6;
+      }
+    }
+    /* Background Animation */
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .heart {
+      position: absolute;
+      bottom: -50px;
+      color: rgba(212, 175, 55, 0.6);
+      animation: floatUp linear infinite;
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translateY(-110vh) scale(1.5) rotate(20deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="hero">
+        <div class="left">
+          <h1><span class="symbol">✦</span> Janu's Dresses collection <span class="symbol">✦</span></h1>
+          <p>Secure access to your favorite family memories. Enter the family username and password to view the gallery.</p>
+          <div class="login-box" id="loginBox">
+            <label for="username">Username</label>
+            <input id="username" type="text" placeholder="familyuser" autocomplete="username" />
+            <label for="password">Password</label>
+            <input id="password" type="password" placeholder="password123" autocomplete="current-password" />
+            <button id="loginButton">Sign In</button>
+            <p id="errorMsg" style="color:#ffb347; font-size:0.95rem; margin:0; display:none;"></p>
+          </div>
+          <div class="gallery" id="galleryBox">
+            <h2><span class="symbol">✧</span> Welcome, familyuser <span class="symbol">✧</span></h2>
+            <p>Enjoy these cherished moments.</p>
+            <div class="grid">
+              <div class="photo-card">
+                <img src="C:\Users\Jaanu\Pictures\wallpers\WhatsApp Image 2026-06-01 at 12.53.08 PM.jpeg" alt="Family outing" />
+                <div class="caption">Summer outing by the lake</div>
+              </div>
+              <div class="photo-card">
+                <img src="C:\Users\Jaanu\Pictures\wallpers\WhatsApp Image 2026-06-01 at 12.53.09 PM.jpeg" alt="Family portrait" />
+                <div class="caption">Family portrait day</div>
+              </div>
+              <div class="photo-card">
+                <img src="C:\Users\Jaanu\Pictures\wallpers\WhatsApp Image 2026-06-01 at 12.53.10 PM.jpg" alt="Holiday dinner" />
+                <div class="caption">Holiday dinner celebration</div>
+              </div>
+              <div class="photo-card">
+                <img src="C:\Users\Jaanu\Pictures\wallpers\WhatsApp Image 2026-06-01 at 12.53.11 PM.jpeg" alt="Picnic" />
+                <div class="caption">Picnic in the park</div>
+              </div>
+            </div>
+            <button class="logout-button" id="logoutButton">Log Out</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const validUsername = 'madhava';
+    const validPassword = 'madhava143';
+
+    const loginBox = document.getElementById('loginBox');
+    const galleryBox = document.getElementById('galleryBox');
+    const loginButton = document.getElementById('loginButton');
+    const logoutButton = document.getElementById('logoutButton');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Create floating gold hearts background
+    function createHeartsBackground() {
+      const container = document.createElement('div');
+      container.className = 'hearts-container';
+      document.body.appendChild(container);
+
+      for (let i = 0; i < 25; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.innerHTML = '♥';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 8 + 6) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        heart.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+        container.appendChild(heart);
+      }
+    }
+    createHeartsBackground();
+
+    function showGallery() {
+      loginBox.style.display = 'none';
+      galleryBox.style.display = 'block';
+      errorMsg.style.display = 'none';
+    }
+
+    function showLogin() {
+      loginBox.style.display = 'flex';
+      galleryBox.style.display = 'none';
+      document.getElementById('password').value = '';
+      document.getElementById('username').focus();
+    }
+
+    loginButton.addEventListener('click', () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (username === validUsername && password === validPassword) {
+        showGallery();
+      } else {
+        errorMsg.textContent = 'Username or password is incorrect.';
+        errorMsg.style.display = 'block';
+      }
+    });
+
+    logoutButton.addEventListener('click', showLogin);
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && loginBox.style.display !== 'none') {
+        loginButton.click();
+      }
+    });
+  </script>
+</body>
+</html>
